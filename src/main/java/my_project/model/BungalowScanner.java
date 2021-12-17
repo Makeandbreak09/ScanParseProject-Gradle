@@ -4,7 +4,7 @@ import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.Scanner;
 
 /**
- * Diese Klasse scannt Strings für die Sprache L_Knebi = k(ne)*bi
+ * Diese Klasse scannt Strings für die Sprache L_Bungalow =a(w v wf)*t(w v wf)*a
  */
 public class BungalowScanner extends Scanner<String,String> {
 

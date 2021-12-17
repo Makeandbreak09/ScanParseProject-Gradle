@@ -37,6 +37,9 @@ public class MainGUI {
                         languageLabel.setText("Momentan ist die Sprache L_Knebi gewählt!");
                         break;
                     // Hier könnten theoretisch weitere Beschreibungen stehen, ist aber nicht dringend.
+                    case 1:
+                        languageLabel.setText("Momentan ist die Sprache L_Bungalow gewählt!");
+                        break;
 
                     default:
                         languageLabel.setText("Es ist die Sprache mit dem Index " + languageIndex.getValue() + " gewählt.");

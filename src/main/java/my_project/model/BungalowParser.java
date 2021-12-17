@@ -10,7 +10,7 @@ public class BungalowParser implements Parser {
 
     @Override
     /**
-     * Diese Methode parst eine Eingabe und stellt fest, ob sie zur Sprache L_Knebi = k(ne)*bi gehört
+     * Diese Methode parst eine Eingabe und stellt fest, ob sie zur Sprache L_Bungalow =a(w v wf)*t(w v wf)*a gehört
      */
     public boolean parse(String input) {
         //Nur wenn erst ein 'START'-, dann beliebig viele 'MIDDLE'-, dann ein 'END'- und zum Schluss ein 'NODATA'-Token kommt wird true zurückgegeben,
