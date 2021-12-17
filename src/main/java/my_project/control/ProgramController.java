@@ -1,6 +1,7 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
+import my_project.model.BungalowParser;
 import my_project.model.KnebiParser;
 import my_project.view.MainGUI;
 
@@ -18,6 +19,7 @@ public class ProgramController {
     // Referenzen
     private ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private KnebiParser knebiParser;
+    private BungalowParser bungalowParser;
 
     /**
      * Konstruktor
@@ -38,9 +40,10 @@ public class ProgramController {
         viewController.getDrawFrame().setContentPane(new MainGUI(this).getMainPanel());
         viewController.getSoundController().loadSound("src/main/resources/sound/yesyesyes.mp3","yes",false);
         viewController.getSoundController().loadSound("src/main/resources/sound/nonono.mp3","no",false);
+        viewController.getSoundController().loadSound("src/main/resources/sound/R2screaming.mp3","R2screaming",false);
+        viewController.getSoundController().loadSound("src/main/resources/sound/JAJAJA.mp3","JAJAJA",false);
         knebiParser = new KnebiParser();
-        // todo Eigener Code
-
+        bungalowParser = new BungalowParser();
     }
 
     /**
@@ -53,9 +56,8 @@ public class ProgramController {
         switch(parserIndex){
             case 0:
                 return knebiParser.parse(input);
-            // todo Hier können weitere Parser aufgeführt werden
             case 1:
-                return knebiParser.parse(input);
+                return bungalowParser.parse(input);
 
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Parser definiert!");
         }
@@ -74,9 +76,10 @@ public class ProgramController {
                 boolean result = knebiParser.getScannerResult(input);
                 System.out.println("\n- KnebiScanner-DEBUG - "+knebiParser.getScannerOutput());
                 return result;
-            // todo Hier können weitere Scanner aufgeführt werden.
             case 1:
-                return knebiParser.getScannerResult(input);
+                boolean bungalowResult = bungalowParser.getScannerResult(input);
+                System.out.println("\n- BungalowScanner-DEBUG - "+bungalowParser.getScannerOutput());
+                return bungalowResult;
 
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Scanner definiert!");
         }
@@ -105,10 +108,11 @@ public class ProgramController {
     }
 
     public void playYes(){
-        viewController.getSoundController().playSound("yes");
+        viewController.getSoundController().playSound("JAJAJA");
     }
 
     public void playNo(){
-        viewController.getSoundController().playSound("no");
+        //viewController.getSoundController().playSound("no");
+        viewController.getSoundController().playSound("R2screaming");
     }
 }

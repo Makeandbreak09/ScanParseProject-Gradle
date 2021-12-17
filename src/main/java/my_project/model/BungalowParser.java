@@ -1,11 +1,11 @@
 package my_project.model;
 
-public class KnebiParser implements Parser {
+public class BungalowParser implements Parser {
 
-    private KnebiScanner scanner;
+    private BungalowScanner scanner;
 
-    public KnebiParser(){
-        scanner = new KnebiScanner();
+    public BungalowParser(){
+        scanner = new BungalowScanner();
     }
 
     @Override
@@ -16,14 +16,21 @@ public class KnebiParser implements Parser {
         //Nur wenn erst ein 'START'-, dann beliebig viele 'MIDDLE'-, dann ein 'END'- und zum Schluss ein 'NODATA'-Token kommt wird true zurückgegeben,
         //ansonsten false.
         if(scanner.scan(input)) {
-            if (scanner.getType().equals("START")) {
+            if (scanner.getType().equals("SIDEWALL")) {
                 scanner.nextToken();
-                if (scanner.getType().equals("MIDDLE")) {
+                if (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
                     scanner.nextToken();
-                    while (scanner.getType().equals("MIDDLE")) scanner.nextToken();
-                    if (scanner.getType().equals("END")) {
+                    while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) scanner.nextToken();
+                    if (scanner.getType().equals("DOOR")) {
                         scanner.nextToken();
-                        if (scanner.getType().equals("NODATA")) return true;
+                        if (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
+                            scanner.nextToken();
+                            while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) scanner.nextToken();
+                            if (scanner.getType().equals("SIDEWALL")) {
+                                scanner.nextToken();
+                                if (scanner.getType().equals("NODATA")) return true;
+                            }
+                        }
                     }
                 }
             }
@@ -56,7 +63,7 @@ public class KnebiParser implements Parser {
     }
 
     private boolean checkS(){
-        if(scanner.getType().equals("START")) {
+        if(scanner.getType().equals("SIDEWALL")) {
             scanner.nextToken();
             return checkA();
         }
@@ -64,16 +71,33 @@ public class KnebiParser implements Parser {
     }
 
     private boolean checkA(){
-        if (scanner.getType().equals("MIDDLE")) {
+        if (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
             scanner.nextToken();
-            while (scanner.getType().equals("MIDDLE")) scanner.nextToken();
+            while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) scanner.nextToken();
             return checkB();
         }
         return false;
     }
 
     private boolean checkB(){
-        if (scanner.getType().equals("END")) {
+        if(scanner.getType().equals("DOOR")) {
+            scanner.nextToken();
+            return checkC();
+        }
+        return false;
+    }
+
+    private boolean checkC(){
+        if (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
+            scanner.nextToken();
+            while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) scanner.nextToken();
+            return checkD();
+        }
+        return false;
+    }
+
+    private boolean checkD(){
+        if (scanner.getType().equals("SIDEWALL")) {
             scanner.nextToken();
             if (scanner.getType().equals("NODATA")) return true;
         }
