@@ -73,7 +73,9 @@ public class BungalowParser implements Parser {
     private boolean checkA(){
         if (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
             scanner.nextToken();
-            while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) scanner.nextToken();
+            if(scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
+                return checkA();
+            }
             return checkB();
         }
         return false;
@@ -90,7 +92,9 @@ public class BungalowParser implements Parser {
     private boolean checkC(){
         if (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
             scanner.nextToken();
-            while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) scanner.nextToken();
+            if(scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
+                return checkC();
+            }
             return checkD();
         }
         return false;
