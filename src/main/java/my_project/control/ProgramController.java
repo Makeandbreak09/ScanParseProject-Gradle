@@ -2,6 +2,7 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import my_project.model.BungalowParser;
+import my_project.model.BungalowParserKontextfrei;
 import my_project.model.KnebiParser;
 import my_project.view.MainGUI;
 
@@ -20,6 +21,7 @@ public class ProgramController {
     private ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private KnebiParser knebiParser;
     private BungalowParser bungalowParser;
+    private BungalowParserKontextfrei bungalowParserKontextfrei;
 
     /**
      * Konstruktor
@@ -44,6 +46,7 @@ public class ProgramController {
         viewController.getSoundController().loadSound("src/main/resources/sound/JAJAJA.mp3","JAJAJA",false);
         knebiParser = new KnebiParser();
         bungalowParser = new BungalowParser();
+        bungalowParserKontextfrei = new BungalowParserKontextfrei();
     }
 
     /**
@@ -58,6 +61,8 @@ public class ProgramController {
                 return knebiParser.parse(input);
             case 1:
                 return bungalowParser.parse(input);
+            case 2:
+                return bungalowParserKontextfrei.parse(input);
 
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Parser definiert!");
         }
@@ -77,9 +82,9 @@ public class ProgramController {
                 System.out.println("\n- KnebiScanner-DEBUG - "+knebiParser.getScannerOutput());
                 return result;
             case 1:
-                boolean bungalowResult = bungalowParser.getScannerResult(input);
-                System.out.println("\n- BungalowScanner-DEBUG - "+bungalowParser.getScannerOutput());
-                return bungalowResult;
+                return bungalowParser.getScannerResult(input);
+            case 2:
+                return bungalowParserKontextfrei.getScannerResult(input);
 
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Scanner definiert!");
         }

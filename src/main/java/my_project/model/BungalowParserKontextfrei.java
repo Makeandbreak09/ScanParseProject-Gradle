@@ -1,32 +1,42 @@
 package my_project.model;
 
-public class BungalowParser implements Parser {
+public class BungalowParserKontextfrei implements Parser {
 
-    private BungalowScanner scanner;
+    private BungalowScannerKontextfrei scanner;
 
-    public BungalowParser(){
-        scanner = new BungalowScanner();
+    public BungalowParserKontextfrei(){
+        scanner = new BungalowScannerKontextfrei();
     }
 
     @Override
     /**
-     * Diese Methode parst eine Eingabe und stellt fest, ob sie zur Sprache L_Bungalow =a(w v wf)*t(w v wf)*a gehört
+     * Diese Methode parst eine Eingabe und stellt fest, ob sie zur Sprache L_BungalowKontextfrei =a(w v wf)^nt(w v wf)^na gehört
      */
     public boolean parse(String input) {
+        int a = 0;
+
         if(scanner.scan(input)) {
             if (scanner.getType().equals("SIDEWALL")) {
                 scanner.nextToken();
                 if (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
+                    a++;
                     scanner.nextToken();
-                    while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) scanner.nextToken();
+                    while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")){
+                        a++;
+                        scanner.nextToken();
+                    }
                     if (scanner.getType().equals("DOOR")) {
                         scanner.nextToken();
                         if (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
+                            a--;
                             scanner.nextToken();
-                            while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) scanner.nextToken();
+                            while (scanner.getType().equals("WALL") || scanner.getType().equals("WINDOW")) {
+                                a--;
+                                scanner.nextToken();
+                            }
                             if (scanner.getType().equals("SIDEWALL")) {
                                 scanner.nextToken();
-                                if (scanner.getType().equals("NODATA")) return true;
+                                if (scanner.getType().equals("NODATA") && a==0) return true;
                             }
                         }
                     }
